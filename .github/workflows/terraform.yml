@@ -1,0 +1,50 @@
+name: Teste Terraform na AWS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  terraform-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Configurar credenciais AWS
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Instalar Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5.7
+
+      - name: Criar arquivo Terraform
+        run: |
+          cat <<EOF > main.tf
+          provider "aws" {
+            region = "us-east-1"
+          }
+
+          resource "aws_s3_bucket" "test_bucket" {
+            bucket = "meu-bucket-teste-terraform-aws"
+            acl    = "private"
+          }
+          EOF
+
+      - name: Inicializar Terraform
+        run: terraform init
+
+      - name: Verificar Terraform Plan
+        run: terraform plan
+
+      - name: Aplicar Terraform (Criar Bucket S3)
+        run: terraform apply -auto-approve
+
+      - name: Remover recursos (Limpeza)
+        run: terraform destroy -auto-approve
