@@ -1,4 +1,4 @@
-name: Teste Terraform na AWS
+name: Criar EC2 com Terraform
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  terraform-test:
+  terraform:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout do código
@@ -25,27 +25,17 @@ jobs:
         with:
           terraform_version: 1.5.7
 
-      - name: Criar arquivo Terraform
-        run: |
-          cat <<EOF > main.tf
-          provider "aws" {
-            region = "us-east-1"
-          }
-
-          resource "aws_s3_bucket" "test_bucket" {
-            bucket = "meu-bucket-teste-terraform-aws"
-            acl    = "private"
-          }
-          EOF
-
       - name: Inicializar Terraform
         run: terraform init
 
       - name: Verificar Terraform Plan
         run: terraform plan
 
-      - name: Aplicar Terraform (Criar Bucket S3)
+      - name: Aplicar Terraform (Criar EC2)
         run: terraform apply -auto-approve
 
-      - name: Remover recursos (Limpeza)
-        run: terraform destroy -auto-approve
+      - name: Exibir detalhes da instância
+        run: aws ec2 describe-instances --filters "Name=tag:Name,Values=MinhaMaquinaDeTeste" --query "Reservations[].Instances[].InstanceId"
+
+      # - name: Apagar instância (Limpeza)
+      #   run: terraform destroy -auto-approve
