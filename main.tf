@@ -1,12 +1,24 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
+}
+
 provider "aws" {
   region = "us-east-1"
 }
 
-resource "aws_instance" "teste_ec2" {
-  ami           = "ami-0c02fb55956c7d316"  # Amazon Linux 2 (us-east-1)
-  instance_type = "t2.micro"
-
-  tags = {
-    Name = "MinhaMaquinaDeTeste"
-  }
+## Modules
+module "database" {
+  source = "./modules/database"
+  subnet_ids = var.subnet_ids
+  db_password = var.db_password
 }
+
+# module "compute" {
+#   source = "./modules/computing"
+#   subnet_ids = var.subnet_ids
+# }
