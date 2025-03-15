@@ -18,7 +18,8 @@ module "database" {
   db_password = var.db_password
 }
 
-# module "compute" {
-#   source = "./modules/computing"
-#   subnet_ids = var.subnet_ids
-# }
+module "compute" {
+  source = "./modules/compute"
+  subnet_ids = var.subnet_ids
+  node_role_arn = var.lab_role_arn
+}
