@@ -1,7 +1,10 @@
-name: Criar EC2 com Terraform
+name: Terraform CI/CD
 
 on:
   push:
+    branches:
+      - main
+  pull_request:
     branches:
       - main
 
@@ -10,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout do código
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Configurar credenciais AWS
         uses: aws-actions/configure-aws-credentials@v3
@@ -21,21 +24,22 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Instalar Terraform
-        uses: hashicorp/setup-terraform@v2
+        uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.5.7
+          terraform_version: latest
 
       - name: Inicializar Terraform
         run: terraform init
 
-      - name: Verificar Terraform Plan
-        run: terraform plan
+      - name: Terraform Validate
+        run: terraform validate
 
-      - name: Aplicar Terraform (Criar EC2)
-        run: terraform apply -auto-approve
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan -var="db_password=${{ secrets.DB_PASSWORD }}"
 
-      - name: Exibir detalhes da instância
-        run: aws ec2 describe-instances --filters "Name=tag:Name,Values=MinhaMaquinaDeTeste" --query "Reservations[].Instances[].InstanceId"
-
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main'
+        run: terraform apply -auto-approve tfplan
+      
       # - name: Apagar instância (Limpeza)
       #   run: terraform destroy -auto-approve
