@@ -8,7 +8,7 @@ resource "aws_eks_cluster" "fiap_fastfood" {
   role_arn = var.node_role_arn  # Now using a predefined IAM Role
 
   vpc_config {
-    subnet_ids = var.subnet_ids  # Using pre-existing subnets
+    subnet_ids = local.subnet_ids  # Using pre-existing subnets
   }
 
   version = local.kubernetes_version
@@ -19,7 +19,7 @@ resource "aws_eks_node_group" "default_ng1" {
   cluster_name    = aws_eks_cluster.fiap_fastfood.name
   node_group_name = "default-ng1"
   node_role_arn   = var.node_role_arn
-  subnet_ids      = var.subnet_ids  # Using pre-existing subnets
+  subnet_ids      = local.subnet_ids  # Using pre-existing subnets
 
   scaling_config {
     desired_size = 2
