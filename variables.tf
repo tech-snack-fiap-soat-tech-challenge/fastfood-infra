@@ -16,7 +16,7 @@ variable "aws_account_id" {
 variable "lab_role_arn" {
   type        = string
   description = "The ARN of the role to assume for the lab"
-  default     = ""
+  default     = "arn:aws:iam::772797387444:role/LabRole"
 }
 
 variable "db_password" {

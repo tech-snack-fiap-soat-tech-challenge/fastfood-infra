@@ -20,6 +20,6 @@ module "database" {
 
 module "compute" {
   source        = "./modules/compute"
-  node_role_arn = var.lab_role_arn
+  node_role_arn = local.lab_role_arn
   subnet_ids    = var.subnet_ids
 }
