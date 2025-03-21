@@ -10,7 +10,7 @@ variable "subnet_ids" {
 variable "aws_account_id" {
   type        = string
   description = "The AWS account ID"
-  default = "772797387444"
+  default     = "772797387444"
 }
 
 variable "lab_role_arn" {
