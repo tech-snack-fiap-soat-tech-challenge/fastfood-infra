@@ -19,7 +19,7 @@ module "database" {
 }
 
 module "compute" {
-  source     = "./modules/compute"
-  subnet_ids = var.subnet_ids
+  source         = "./modules/compute"
+  subnet_ids     = var.subnet_ids
   aws_account_id = var.aws_account_id
 }
