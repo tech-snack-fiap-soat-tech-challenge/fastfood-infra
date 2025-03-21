@@ -13,13 +13,13 @@ provider "aws" {
 
 ## Modules
 module "database" {
-  source = "./modules/database"
-  subnet_ids = var.subnet_ids
+  source      = "./modules/database"
+  subnet_ids  = var.subnet_ids
   db_password = var.db_password
 }
 
 module "compute" {
-  source = "./modules/compute"
+  source        = "./modules/compute"
   node_role_arn = var.lab_role_arn
-  subnet_ids = var.subnet_ids
+  subnet_ids    = var.subnet_ids
 }
