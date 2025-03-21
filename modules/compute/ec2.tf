@@ -13,10 +13,11 @@ resource "aws_eks_cluster" "fiap_fastfood" {
   version = local.kubernetes_version
 }
 
-resource "aws_eks_addon" "metrics_server" {
-  cluster_name = aws_eks_cluster.fiap_fastfood.name
-  addon_name   = "metrics-server"
-}
+# Disabled this for faster deployment, this is necessary for the auto-scaler
+# resource "aws_eks_addon" "metrics_server" {
+#   cluster_name = aws_eks_cluster.fiap_fastfood.name
+#   addon_name   = "metrics-server"
+# }
 
 resource "aws_eks_node_group" "default_ng1" {
   cluster_name    = aws_eks_cluster.fiap_fastfood.name
@@ -25,7 +26,7 @@ resource "aws_eks_node_group" "default_ng1" {
   subnet_ids      = aws_eks_cluster.fiap_fastfood.vpc_config[0].subnet_ids
 
   scaling_config {
-    desired_size = 4
+    desired_size = 2
     min_size     = 2
     max_size     = 4
   }
