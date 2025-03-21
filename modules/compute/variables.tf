@@ -1,9 +1,9 @@
 variable "subnet_ids" {
-  type        = list(string)
+  type = list(string)
   description = "The list of subnet IDs in which to place the EC2 instances"
 }
 
-variable "aws_account_id" {
+variable "node_role_arn" {
   type        = string
-  description = "The AWS account ID"
+  description = "ARN of the EKS Node Group Role"
 }
