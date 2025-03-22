@@ -30,8 +30,14 @@ module "cognito" {
 }
 
 module "lambda" {
-  source            = "./modules/lambda"
-  lab_role_arn      = var.lab_role_arn
-  cognito_client_id = module.cognito.user_pool_client_id
-  aws_account_id    = var.aws_account_id
+  source                = "./modules/lambda"
+  lab_role_arn          = var.lab_role_arn
+  cognito_client_id     = module.cognito.user_pool_client_id
+  gateway_execution_arn = module.gateway.integration_execution_arn
+}
+
+module "gateway" {
+  source            = "./modules/gateway"
+  aws_region        = var.aws_region
+  lambda_invoke_arn = module.lambda.integration_invoke_arn
 }

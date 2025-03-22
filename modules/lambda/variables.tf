@@ -8,7 +8,7 @@ variable "cognito_client_id" {
   type        = string
 }
 
-variable "aws_account_id" {
-  description = "ID da conta AWS"
+variable "gateway_execution_arn" {
+  description = "Execution ARN of the REST API Gateway"
   type        = string
 }
