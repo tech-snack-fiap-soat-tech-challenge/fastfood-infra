@@ -23,3 +23,13 @@ variable "db_password" {
   type        = string
   description = "The password for the database"
 }
+
+variable "aws_region" {
+  type        = string
+  description = "The AWS region to deploy resources"
+}
+
+variable "user_pool_domain" {
+  type        = string
+  description = "The domain for the Cognito User Pool"
+}
