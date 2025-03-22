@@ -25,8 +25,8 @@ module "compute" {
 }
 
 module "cognito" {
-  source       = "./modules/cognito"
-  redirect_uri = "https://fiap-fastfood.com.br/callback"
+  source           = "./modules/cognito"
+  user_pool_domain = var.user_pool_domain
 }
 
 module "lambda" {
@@ -34,4 +34,14 @@ module "lambda" {
   lab_role_arn      = var.lab_role_arn
   cognito_client_id = module.cognito.user_pool_client_id
   aws_account_id    = var.aws_account_id
+  api_gtw_arn_permission = module.api-gtw.execution_arn
+}
+
+module "api-gtw" {
+  source              = "./modules/api-gtw"
+  aws_region          = var.aws_region
+  user_pool_domain    = var.user_pool_domain
+  lambda_invoke_arn   = module.lambda.invoke_arn
+  user_pool_id        = module.cognito.user_pool_id
+  user_pool_client_id = module.cognito.user_pool_client_id
 }

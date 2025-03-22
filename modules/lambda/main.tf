@@ -12,3 +12,11 @@ resource "aws_lambda_function" "auth_lambda" {
     }
   }
 }
+
+resource "aws_lambda_permission" "lambda_permission" {
+  statement_id  = "AllowHttpApiInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.auth_lambda.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${var.api_gtw_arn_permission}/*/*"
+}

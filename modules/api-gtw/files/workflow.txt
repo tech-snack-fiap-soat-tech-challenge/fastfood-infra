@@ -1,0 +1,38 @@
+                            +----------------+
+                            |  Totem Device  |
+                            | (Local Kiosk)  |
+                            +-------+--------+
+                                    |
+                           HTTP POST /auth/cpf
+                                    |
+                            +-------v--------+
+                            | API Gateway v2 |
+                            |  (HTTP API)    |
+                            +-------+--------+
+                                    |
+                         Cognito Authorizer (JWT)
+                                    |
+                          +---------+---------+
+                          |                   |
+                          |                   |
+                +---------v---------+ +-------v---------+
+                |     Authorized    | |   Unauthorized  |
+                |    (valid JWT)    | |    (no token)   |
+                +---------+---------+ +-------+---------+
+                          |                   |
+                          |  Lambda triggers  |
+                          |                   |
+                      +---v-------------------v----+
+                      |      Lambda: CPF Auth      |
+                      |      - Validate CPF        |
+                      |      - Call Cognito        |
+                      |        AdminGetUser        |
+                      |     - Return JWT or        |
+                      |       anonymous flag       |
+                      +--------------+-------------+
+                                     |
+                                     |
+                           +---------v---------+
+                           |   Totem receives  |
+                           |   auth payload    |
+                           +-------------------+
