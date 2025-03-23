@@ -23,3 +23,8 @@ variable "db_password" {
   type        = string
   description = "The password for the database"
 }
+
+variable "aws_region" {
+  type        = string
+  description = "The AWS region to deploy resources"
+}
