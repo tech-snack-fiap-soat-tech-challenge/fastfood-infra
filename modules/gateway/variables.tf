@@ -3,7 +3,12 @@ variable "lambda_invoke_arn" {
   type        = string
 }
 
-variable "aws_region" {
-  description = "AWS region"
+variable "auth_provider_arn" {
+  description = "ARN of the Cognito User Pool"
+  type = string
+}
+
+variable "backend_api_url" {
+  description = "Hostname of the backend API"
   type        = string
 }

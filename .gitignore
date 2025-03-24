@@ -43,3 +43,6 @@ terraform.rc
 .idea/
 *.idea/
 .vscode/
+
+# macOS files
+.DS_Store
