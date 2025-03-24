@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "aws" {
-  region = "us-east-1"
+  region = var.aws_region
 }
 
 ## Modules
@@ -26,18 +26,19 @@ module "compute" {
 
 module "cognito" {
   source       = "./modules/cognito"
-  redirect_uri = "https://fiap-fastfood.com.br/callback"
+  redirect_uri = local.auth_redirect_uri
 }
 
 module "lambda" {
   source                = "./modules/lambda"
-  lab_role_arn          = var.lab_role_arn
+  lab_role_arn          = local.lab_role_arn
   cognito_client_id     = module.cognito.user_pool_client_id
   gateway_execution_arn = module.gateway.integration_execution_arn
 }
 
 module "gateway" {
   source            = "./modules/gateway"
-  aws_region        = var.aws_region
+  backend_api_url   = var.api_host_name
   lambda_invoke_arn = module.lambda.integration_invoke_arn
+  auth_provider_arn = module.cognito.user_pool_arn
 }
