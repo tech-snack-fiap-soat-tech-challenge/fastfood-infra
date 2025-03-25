@@ -8,8 +8,6 @@ data "aws_eks_cluster_auth" "fiap_fastfood" {
   depends_on = [module.compute]
 }
 
-
-
 provider "helm" {
   alias = "eks"
   kubernetes {
