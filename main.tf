@@ -16,6 +16,7 @@ module "database" {
   source      = "./modules/database"
   subnet_ids  = var.subnet_ids
   db_password = var.db_password
+  db_user     = var.db_user
 }
 
 module "compute" {
@@ -41,4 +42,8 @@ module "gateway" {
   backend_api_url   = var.api_host_name
   lambda_invoke_arn = module.lambda.integration_invoke_arn
   auth_provider_arn = module.cognito.user_pool_arn
+}
+
+module "integration" {
+  source = "./modules/integration"
 }
