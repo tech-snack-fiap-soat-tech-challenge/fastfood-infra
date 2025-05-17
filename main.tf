@@ -42,3 +42,7 @@ module "gateway" {
   lambda_invoke_arn = module.lambda.integration_invoke_arn
   auth_provider_arn = module.cognito.user_pool_arn
 }
+
+module "dynamodb" {
+  source = "./modules/dynamodb"
+}
