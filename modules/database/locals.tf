@@ -6,6 +6,12 @@ locals {
   db_instance          = "db.t3.micro"
   subnet_ids           = var.subnet_ids
   availability_zone    = "us-east-1a"
-  db_user              = "postgres"
+  db_user              = var.db_user
   db_password          = var.db_password
+
+  databases = toset([
+    "checkout-${local.db_name}",
+    "products-${local.db_name}",
+    "customers-${local.db_name}"
+  ])
 }

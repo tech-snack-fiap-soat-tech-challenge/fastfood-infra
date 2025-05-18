@@ -8,6 +8,12 @@ variable "aws_account_id" {
   description = "The AWS account ID"
 }
 
+variable "db_user" {
+  type        = string
+  description = "The username for the database"
+  default     = "postgres"
+}
+
 variable "db_password" {
   type        = string
   description = "The password for the database"

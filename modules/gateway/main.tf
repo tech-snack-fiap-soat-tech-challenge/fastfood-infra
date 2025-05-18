@@ -8,7 +8,7 @@ resource "aws_api_gateway_authorizer" "rest_api_gateway_authorizer" {
   type            = "COGNITO_USER_POOLS"
   identity_source = "method.request.header.Authorization"
   rest_api_id     = aws_api_gateway_rest_api.rest_api_gateway.id
-  provider_arns = [var.auth_provider_arn]
+  provider_arns   = [var.auth_provider_arn]
 }
 
 # Resources and routes config for sign-in
