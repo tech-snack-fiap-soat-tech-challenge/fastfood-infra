@@ -5,7 +5,7 @@ variable "lambda_invoke_arn" {
 
 variable "auth_provider_arn" {
   description = "ARN of the Cognito User Pool"
-  type = string
+  type        = string
 }
 
 variable "backend_api_url" {

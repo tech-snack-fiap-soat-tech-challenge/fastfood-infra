@@ -1,5 +1,8 @@
 resource "aws_db_instance" "postgres" {
-  identifier           = local.db_name
+  for_each = local.databases
+
+  identifier = each.value
+
   engine_version       = local.db_engine_version
   engine               = "postgres"
   instance_class       = local.db_instance
