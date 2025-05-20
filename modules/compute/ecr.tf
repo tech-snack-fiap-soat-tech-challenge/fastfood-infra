@@ -1,10 +1,14 @@
 resource "aws_ecr_repository" "ecr" {
-  name = "fiap-fastfood"
+  for_each = local.ecr_repositories
+  
+  name = each.key
   image_scanning_configuration {
     scan_on_push = true
   }
 }
 
-output "ecr_url" {
-  value = aws_ecr_repository.ecr.repository_url
+output "ecr_urls" {
+  value = {
+    for repo_name, repo in aws_ecr_repository.ecr : repo_name => repo.repository_url
+  }
 }
