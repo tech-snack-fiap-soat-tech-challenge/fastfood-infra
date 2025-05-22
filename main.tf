@@ -47,3 +47,7 @@ module "gateway" {
 module "integration" {
   source = "./modules/integration"
 }
+
+module "dynamodb" {
+  source = "./modules/dynamodb"
+}
